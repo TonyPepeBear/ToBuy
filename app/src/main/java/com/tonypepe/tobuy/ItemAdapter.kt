@@ -8,18 +8,27 @@ import com.tonypepe.tobuy.data.Item
 
 class ItemAdapter : PagedListAdapter<Item, ItemViewHolder>(
     object : DiffUtil.ItemCallback<Item>() {
-        override fun areItemsTheSame(oldItem: Item, newItem: Item) = oldItem.name == newItem.name
-        override fun areContentsTheSame(oldItem: Item, newItem: Item) = oldItem == newItem
+        override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
+            return oldItem == newItem
+        }
+
+        override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
+            logd("diff: $oldItem\n$newItem")
+            return false
+        }
     }
 ) {
+    var action: ItemAction? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ItemViewHolder(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.tobuy_item, parent, true)
+                .inflate(R.layout.tobuy_item, parent, false)
         )
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        getItem(position)?.let {
+            holder.bindView(it, action)
+        }
     }
-
 }
