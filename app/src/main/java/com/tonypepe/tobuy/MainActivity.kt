@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.tonypepe.tobuy.data.Item
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -56,6 +57,10 @@ class MainActivity : AppCompatActivity(), ItemAction {
     override fun leftButtonClick(item: Item) {
         if (item.count < 2) {
             viewModel.deleteItem(item)
+            Snackbar.make(recycler, "Deleted", Snackbar.LENGTH_LONG)
+                .setAction("UNDO") {
+                    viewModel.insert(item)
+                }.show()
         } else {
             item.count--
             viewModel.updateItem(item)
