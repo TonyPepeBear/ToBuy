@@ -6,7 +6,7 @@ import androidx.room.*
 @Dao
 interface ItemDao {
 
-    @Query("select * from item")
+    @Query("select * from item order by count desc")
     fun getAllItem(): DataSource.Factory<Int, Item>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
