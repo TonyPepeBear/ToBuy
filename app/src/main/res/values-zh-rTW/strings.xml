@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ToBuy</string>
+    <string name="action_settings">設定</string>
+    <string name="add_item">新增項目</string>
+    <string name="delete_item_success">成功刪除 %s</string>
+    <string name="item">項目</string>
+    <string name="ok">OK</string>
+    <string name="undo">復原</string>
+    <string name="set_number">設定數量</string>
+</resources>

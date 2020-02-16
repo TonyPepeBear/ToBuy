@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity(), ItemAction {
         val view = layoutInflater.inflate(R.layout.item_alert_count, null)
         view.input_number.text = SpannableStringBuilder(item.count.toString())
         alert {
-            title = getString(R.string.setNumber)
+            title = getString(R.string.set_number)
             customView = view
             positiveButton(R.string.ok) {
                 val number = view.input_number.text.toString().toIntOrNull()
