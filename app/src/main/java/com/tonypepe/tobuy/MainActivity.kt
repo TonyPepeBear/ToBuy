@@ -1,16 +1,19 @@
 package com.tonypepe.tobuy
 
 import android.os.Bundle
+import android.text.SpannableStringBuilder
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.tonypepe.tobuy.data.Item
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import kotlinx.android.synthetic.main.input_item.view.*
+import kotlinx.android.synthetic.main.item_alert_count.view.*
+import kotlinx.android.synthetic.main.item_alert_input.view.*
 import org.jetbrains.anko.alert
 
 class MainActivity : AppCompatActivity(), ItemAction {
@@ -21,7 +24,7 @@ class MainActivity : AppCompatActivity(), ItemAction {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         fab.setOnClickListener {
-            val view = layoutInflater.inflate(R.layout.input_item, null)
+            val view = layoutInflater.inflate(R.layout.item_alert_input, null)
             alert {
                 title = getString(R.string.add_item)
                 customView = view
@@ -31,7 +34,6 @@ class MainActivity : AppCompatActivity(), ItemAction {
                     logd("insert item $text")
                 }
             }.show()
-            viewModel.insertItem(Item("Egg", 1))
         }
         // recycler
         recycler.apply {
@@ -60,14 +62,48 @@ class MainActivity : AppCompatActivity(), ItemAction {
     }
 
     override fun rightButtonClick(item: Item) {
+        logd("rightButtonClick")
         item.count++
         viewModel.updateItem(item)
     }
 
     override fun leftButtonClick(item: Item) {
+        logd("leftButtonClick")
         if (item.count > 0) {
             item.count--
             viewModel.updateItem(item)
         }
+    }
+
+    override fun onCountClick(item: Item) {
+        logd("onCountClick")
+        val view = layoutInflater.inflate(R.layout.item_alert_count, null)
+        view.input_number.text = SpannableStringBuilder(item.count.toString())
+        alert {
+            title = getString(R.string.setNumber)
+            customView = view
+            positiveButton(R.string.ok) {
+                val number = view.input_number.text.toString().toIntOrNull()
+                if (number == null) {
+                    view.snackBar("Input Error")
+                } else {
+                    item.count = number
+                    viewModel.updateItem(item)
+                }
+            }
+            show()
+        }
+    }
+
+    override fun longClick(item: Item) {
+        logd("longClick")
+        viewModel.deleteItem(item)
+        Snackbar.make(
+            recycler,
+            getString(R.string.delete_item_success, item.name),
+            Snackbar.LENGTH_LONG
+        )
+            .setAction(R.string.undo) { viewModel.insertItem(item) }
+            .show()
     }
 }

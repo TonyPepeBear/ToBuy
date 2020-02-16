@@ -4,4 +4,7 @@
     <string name="add_item">Add Item</string>
     <string name="ok">OK</string>
     <string name="item">item</string>
+    <string name="delete_item_success">Delete %s Success</string>
+    <string name="undo">UNDO</string>
+    <string name="setNumber">Set Number</string>
 </resources>
