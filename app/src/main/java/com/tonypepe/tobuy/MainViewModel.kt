@@ -14,7 +14,7 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
         return database.getAll()
     }
 
-    fun insert(item: Item) {
+    fun insertItem(item: Item) {
         database.insertItem(item)
     }
 

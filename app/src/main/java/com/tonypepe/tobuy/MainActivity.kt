@@ -11,6 +11,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.tonypepe.tobuy.data.Item
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.input_item.view.*
+import org.jetbrains.anko.alert
 
 class MainActivity : AppCompatActivity(), ItemAction {
     val viewModel: MainViewModel by viewModels()
@@ -20,8 +22,17 @@ class MainActivity : AppCompatActivity(), ItemAction {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         fab.setOnClickListener {
-            viewModel.insert(Item("Egg", 1))
-            // TODO: add item
+            val view = layoutInflater.inflate(R.layout.input_item, null)
+            alert {
+                title = getString(R.string.add_item)
+                customView = view
+                positiveButton(getString(R.string.ok)) {
+                    val text = view.input_text.text
+                    viewModel.insertItem(Item(text.toString(), 1))
+                    logd("insert item $text")
+                }
+            }.show()
+            viewModel.insertItem(Item("Egg", 1))
         }
         // recycler
         recycler.apply {
@@ -59,7 +70,7 @@ class MainActivity : AppCompatActivity(), ItemAction {
             viewModel.deleteItem(item)
             Snackbar.make(recycler, "Deleted", Snackbar.LENGTH_LONG)
                 .setAction("UNDO") {
-                    viewModel.insert(item)
+                    viewModel.insertItem(item)
                 }.show()
         } else {
             item.count--
