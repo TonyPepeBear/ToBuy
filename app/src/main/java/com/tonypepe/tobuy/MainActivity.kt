@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.item_alert_count.view.*
 import kotlinx.android.synthetic.main.item_alert_input.view.*
 import org.jetbrains.anko.alert
+import org.jetbrains.anko.cancelButton
 
 class MainActivity : AppCompatActivity(), ItemAction {
     val viewModel: MainViewModel by viewModels()
@@ -33,7 +34,9 @@ class MainActivity : AppCompatActivity(), ItemAction {
                     viewModel.insertItem(Item(text.toString(), 1))
                     logd("insert item $text")
                 }
-            }.show()
+                cancelButton { }
+                show()
+            }
         }
         // recycler
         recycler.apply {
@@ -91,6 +94,7 @@ class MainActivity : AppCompatActivity(), ItemAction {
                     viewModel.updateItem(item)
                 }
             }
+            cancelButton {}
             show()
         }
     }
