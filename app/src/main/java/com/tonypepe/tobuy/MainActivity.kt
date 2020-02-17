@@ -50,4 +50,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer.closeDrawer(GravityCompat.START)
         return true
     }
+
+    override fun onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START)
+        } else
+            super.onBackPressed()
+    }
 }
