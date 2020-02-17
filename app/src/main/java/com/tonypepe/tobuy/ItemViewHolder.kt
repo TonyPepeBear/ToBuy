@@ -20,7 +20,7 @@ class ItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             buttonRight.onClick { action.rightButtonClick(item) }
             buttonLeft.onClick { action.leftButtonClick(item) }
             count.onClick { action.onCountClick(item) }
-            view.onLongClick { action.longClick(item) }
+            view.onLongClick { action.onLongClick(item) }
         }
     }
 }
@@ -29,5 +29,5 @@ interface ItemAction {
     fun rightButtonClick(item: Item)
     fun leftButtonClick(item: Item)
     fun onCountClick(item: Item)
-    fun longClick(item: Item)
+    fun onLongClick(item: Item)
 }
