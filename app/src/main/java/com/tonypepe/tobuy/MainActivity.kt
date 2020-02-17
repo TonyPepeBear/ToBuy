@@ -41,10 +41,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val controller = findNavController(R.id.content_fragment)
         when (item.itemId) {
             R.id.action_list -> {
-                controller.navigate(R.id.mainFragment)
+                controller.navigate(R.id.action_global_mainFragment)
             }
             R.id.action_settings -> {
-                controller.navigate(R.id.settingsFragment)
+                controller.navigate(R.id.action_global_settingsFragment)
             }
         }
         drawer.closeDrawer(GravityCompat.START)

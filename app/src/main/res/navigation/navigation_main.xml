@@ -7,17 +7,20 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.tonypepe.tobuy.fragment.MainFragment"
-        android:label="MainFragment">
-        <action
-            android:id="@+id/action_mainFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
-    </fragment>
+        android:label="MainFragment" />
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.tonypepe.tobuy.fragment.SettingsFragment"
-        android:label="SettingsFragment">
-        <action
-            android:id="@+id/action_settingsFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
-    </fragment>
+        android:label="SettingsFragment" />
+    <action
+        android:id="@+id/action_global_mainFragment"
+        app:destination="@id/mainFragment"
+        app:launchSingleTop="false"
+        app:popUpTo="@+id/mainFragment"
+        app:popUpToInclusive="true" />
+    <action
+        android:id="@+id/action_global_settingsFragment"
+        app:destination="@id/settingsFragment"
+        app:launchSingleTop="false"
+        app:popUpTo="@id/settingsFragment" />
 </navigation>
