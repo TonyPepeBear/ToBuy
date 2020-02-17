@@ -6,6 +6,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.tonypepe.tobuy.*
@@ -22,7 +23,6 @@ class MainFragment : Fragment(R.layout.fragment_main), ItemAction {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fab
         fab.setOnClickListener {
             val view = layoutInflater.inflate(R.layout.item_alert_input, null)
             activity?.alert {
@@ -51,6 +51,7 @@ class MainFragment : Fragment(R.layout.fragment_main), ItemAction {
                 itemAdapter.submitList(it)
             }
         }
+        logd(findNavController())
     }
 
     override fun rightButtonClick(item: Item) {
