@@ -5,9 +5,11 @@ import android.text.SpannableStringBuilder
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.tonypepe.tobuy.data.Item
 import kotlinx.android.synthetic.main.activity_main.*
@@ -17,7 +19,8 @@ import kotlinx.android.synthetic.main.item_alert_input.view.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.cancelButton
 
-class MainActivity : AppCompatActivity(), ItemAction {
+class MainActivity : AppCompatActivity(), ItemAction,
+    NavigationView.OnNavigationItemSelectedListener {
     val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +37,10 @@ class MainActivity : AppCompatActivity(), ItemAction {
                     viewModel.insertItem(Item(text.toString(), 1))
                     logd("insert item $text")
                 }
-                cancelButton { }
+                cancelButton {
+
+                }
+                isCancelable = false
                 show()
             }
         }
@@ -50,6 +56,10 @@ class MainActivity : AppCompatActivity(), ItemAction {
             val itemAdapter = recycler.adapter as ItemAdapter
             itemAdapter.submitList(it)
         }
+        // navigation
+        val toggle =
+            ActionBarDrawerToggle(this, drawer, toolbar, R.string.ok, R.string.cancel)
+        navigation.setNavigationItemSelectedListener(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -109,5 +119,10 @@ class MainActivity : AppCompatActivity(), ItemAction {
         )
             .setAction(R.string.undo) { viewModel.insertItem(item) }
             .show()
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        logd(item.title)
+        return true
     }
 }
