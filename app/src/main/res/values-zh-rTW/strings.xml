@@ -8,4 +8,6 @@
     <string name="ok">OK</string>
     <string name="undo">復原</string>
     <string name="set_number">設定數量</string>
+    <string name="cancel">ddd</string>
+    <string name="list">列表</string>
 </resources>

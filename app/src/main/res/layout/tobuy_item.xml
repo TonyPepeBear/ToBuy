@@ -25,7 +25,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/textView_count"
-        app:layout_constraintEnd_toStartOf="@+id/textView_count"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="@+id/textView_count"
         app:srcCompat="@drawable/ic_chevron_left_black_24dp" />
@@ -35,26 +34,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="259dp" />
+        app:layout_constraintGuide_percent="0.60" />
 
     <TextView
         android:id="@+id/textView_count"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="0"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintEnd_toStartOf="@id/button_right"
+        app:layout_constraintStart_toEndOf="@id/button_left"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/button_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/textView_count"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView_count"
         app:layout_constraintTop_toTopOf="@+id/textView_count"
         app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

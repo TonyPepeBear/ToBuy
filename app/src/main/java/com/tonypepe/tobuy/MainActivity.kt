@@ -1,55 +1,27 @@
 package com.tonypepe.tobuy
 
 import android.os.Bundle
-import android.text.SpannableStringBuilder
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.observe
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
-import com.tonypepe.tobuy.data.Item
+import androidx.core.view.GravityCompat
+import androidx.navigation.findNavController
+import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_main.*
-import kotlinx.android.synthetic.main.item_alert_count.view.*
-import kotlinx.android.synthetic.main.item_alert_input.view.*
-import org.jetbrains.anko.alert
-import org.jetbrains.anko.cancelButton
 
-class MainActivity : AppCompatActivity(), ItemAction {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     val viewModel: MainViewModel by viewModels()
+    lateinit var toggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        fab.setOnClickListener {
-            val view = layoutInflater.inflate(R.layout.item_alert_input, null)
-            alert {
-                title = getString(R.string.add_item)
-                customView = view
-                positiveButton(getString(R.string.ok)) {
-                    val text = view.input_text.text
-                    viewModel.insertItem(Item(text.toString(), 1))
-                    logd("insert item $text")
-                }
-                cancelButton { }
-                show()
-            }
-        }
-        // recycler
-        recycler.apply {
-            setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(this@MainActivity)
-            val itemAdapter = ItemAdapter()
-            adapter = itemAdapter
-            itemAdapter.action = this@MainActivity
-        }
-        viewModel.getAllLiveData().observe(this) {
-            val itemAdapter = recycler.adapter as ItemAdapter
-            itemAdapter.submitList(it)
-        }
+        // navigation
+        toggle = ActionBarDrawerToggle(this, drawer, toolbar, R.string.ok, R.string.cancel)
+        navigation.setNavigationItemSelectedListener(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -64,50 +36,25 @@ class MainActivity : AppCompatActivity(), ItemAction {
         }
     }
 
-    override fun rightButtonClick(item: Item) {
-        logd("rightButtonClick")
-        item.count++
-        viewModel.updateItem(item)
-    }
-
-    override fun leftButtonClick(item: Item) {
-        logd("leftButtonClick")
-        if (item.count > 0) {
-            item.count--
-            viewModel.updateItem(item)
-        }
-    }
-
-    override fun onCountClick(item: Item) {
-        logd("onCountClick")
-        val view = layoutInflater.inflate(R.layout.item_alert_count, null)
-        view.input_number.text = SpannableStringBuilder(item.count.toString())
-        alert {
-            title = getString(R.string.set_number)
-            customView = view
-            positiveButton(R.string.ok) {
-                val number = view.input_number.text.toString().toIntOrNull()
-                if (number == null) {
-                    view.snackBar("Input Error")
-                } else {
-                    item.count = number
-                    viewModel.updateItem(item)
-                }
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        logd("onNavigationItemSelected ${item.title}")
+        val controller = findNavController(R.id.content_fragment)
+        when (item.itemId) {
+            R.id.action_list -> {
+                controller.navigate(R.id.action_global_mainFragment)
             }
-            cancelButton {}
-            show()
+            R.id.action_settings -> {
+                controller.navigate(R.id.action_global_settingsFragment)
+            }
         }
+        drawer.closeDrawer(GravityCompat.START)
+        return true
     }
 
-    override fun longClick(item: Item) {
-        logd("longClick")
-        viewModel.deleteItem(item)
-        Snackbar.make(
-            recycler,
-            getString(R.string.delete_item_success, item.name),
-            Snackbar.LENGTH_LONG
-        )
-            .setAction(R.string.undo) { viewModel.insertItem(item) }
-            .show()
+    override fun onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START)
+        } else
+            super.onBackPressed()
     }
 }

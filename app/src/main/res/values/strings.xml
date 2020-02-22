@@ -7,4 +7,6 @@
     <string name="delete_item_success">Delete %s Success</string>
     <string name="undo">UNDO</string>
     <string name="set_number">Set Number</string>
+    <string name="cancel">Cancel</string>
+    <string name="list">List</string>
 </resources>

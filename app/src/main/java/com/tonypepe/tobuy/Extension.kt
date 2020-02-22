@@ -9,5 +9,9 @@ fun Any.logd(message: Any?) {
 }
 
 fun View.snackBar(message: Any?) {
-    Snackbar.make(this, message.toString(), Snackbar.LENGTH_SHORT)
+    Snackbar.make(this, message.toString(), Snackbar.LENGTH_SHORT).show()
+}
+
+fun View.snackBarLong(message: Any?) {
+    Snackbar.make(this, message.toString(), Snackbar.LENGTH_LONG).show()
 }
