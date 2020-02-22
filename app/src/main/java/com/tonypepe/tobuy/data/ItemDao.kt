@@ -17,4 +17,7 @@ interface ItemDao {
 
     @Delete
     suspend fun deleteItem(item: Item)
+
+    @Query("select * from item where name = :name")
+    fun getItem(name: String): Item
 }

@@ -11,7 +11,7 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
     val database = AppDatabase.getInstance(app.applicationContext)
 
     fun getAllLiveData(): LiveData<PagedList<Item>> {
-        return database.getAll()
+        return database.getAllPagedData()
     }
 
     fun insertItem(item: Item) {

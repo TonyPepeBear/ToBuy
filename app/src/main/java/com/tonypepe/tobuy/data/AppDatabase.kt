@@ -35,10 +35,12 @@ abstract class AppDatabase : RoomDatabase() {
         }
     }
 
-    fun getAll(): LiveData<PagedList<Item>> {
+    fun getAllPagedData(): LiveData<PagedList<Item>> {
         val dataSource = itemDao().getAllItem()
         return LivePagedListBuilder(dataSource, 30).build()
     }
+
+    fun getItem(name: String) = itemDao().getItem(name)
 
     fun insertItem(item: Item) {
         runBlocking {
