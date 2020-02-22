@@ -30,7 +30,7 @@ class MainFragment : Fragment(R.layout.fragment_main), ItemAction {
                 customView = view
                 positiveButton(getString(R.string.ok)) {
                     val text = view.input_text.text
-                    viewModel.insertItem(Item(text.toString(), 1))
+                    viewModel.insertItem(Item(text.toString(), 1, 0))
                     logd("insert item $text")
                 }
                 cancelButton {
