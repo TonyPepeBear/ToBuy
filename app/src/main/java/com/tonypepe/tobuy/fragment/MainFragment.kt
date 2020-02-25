@@ -1,5 +1,9 @@
 package com.tonypepe.tobuy.fragment
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.view.View
@@ -11,14 +15,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.tonypepe.tobuy.*
 import com.tonypepe.tobuy.data.Item
+import com.tonypepe.tobuy.receiver.ItemNotificationReceiver
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.item_alert_count.view.*
 import kotlinx.android.synthetic.main.item_alert_input.view.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.cancelButton
 import org.jetbrains.anko.support.v4.alert
+import java.util.*
 
 class MainFragment : Fragment(R.layout.fragment_main), ItemAction {
+    companion object {
+        const val REQUEST_CODE_NOTIFICATION = 3298
+    }
+
     private val viewModel by activityViewModels<MainViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,6 +62,26 @@ class MainFragment : Fragment(R.layout.fragment_main), ItemAction {
             }
         }
         logd(findNavController())
+    }
+
+    override fun onClick(item: Item) {
+        logd("onClick $item")
+        val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(context, ItemNotificationReceiver::class.java).apply {
+            putExtra(ItemNotificationReceiver.STRING_NAME, item.name)
+            putExtra(ItemNotificationReceiver.STRING_TEXT, item.count.toString())
+        }
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            REQUEST_CODE_NOTIFICATION,
+            intent,
+            PendingIntent.FLAG_ONE_SHOT
+        )
+        alarmManager.set(
+            AlarmManager.RTC_WAKEUP,
+            Calendar.getInstance().timeInMillis,
+            pendingIntent
+        )
     }
 
     override fun rightButtonClick(item: Item) {

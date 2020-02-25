@@ -9,4 +9,6 @@
     <string name="set_number">Set Number</string>
     <string name="cancel">Cancel</string>
     <string name="list">List</string>
+    <string name="channel_Item">Item Notification</string>
+    <string name="description_item">Show a ToBuy Item Notification</string>
 </resources>

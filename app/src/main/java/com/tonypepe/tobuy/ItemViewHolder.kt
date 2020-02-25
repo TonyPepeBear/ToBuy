@@ -17,6 +17,7 @@ class ItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         title.text = item.name
         count.text = item.count.toString()
         action?.let {
+            view.onClick { action.onClick(item) }
             buttonRight.onClick { action.rightButtonClick(item) }
             buttonLeft.onClick { action.leftButtonClick(item) }
             count.onClick { action.onCountClick(item) }
@@ -26,6 +27,7 @@ class ItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 }
 
 interface ItemAction {
+    fun onClick(item: Item)
     fun rightButtonClick(item: Item)
     fun leftButtonClick(item: Item)
     fun onCountClick(item: Item)
