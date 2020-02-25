@@ -9,19 +9,27 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.navigation.findNavController
 import com.google.android.material.navigation.NavigationView
-import kotlinx.android.synthetic.main.activity_main.*
+import com.tonypepe.tobuy.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     val viewModel: MainViewModel by viewModels()
+    lateinit var binding: ActivityMainBinding
     lateinit var toggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
         // navigation
-        toggle = ActionBarDrawerToggle(this, drawer, toolbar, R.string.ok, R.string.cancel)
-        navigation.setNavigationItemSelectedListener(this)
+        toggle = ActionBarDrawerToggle(
+            this,
+            binding.drawer,
+            binding.toolbar,
+            R.string.ok,
+            R.string.cancel
+        )
+        binding.navigation.setNavigationItemSelectedListener(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -47,13 +55,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 controller.navigate(R.id.action_global_settingsFragment)
             }
         }
-        drawer.closeDrawer(GravityCompat.START)
+        binding.drawer.closeDrawer(GravityCompat.START)
         return true
     }
 
     override fun onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START)
+        if (binding.drawer.isDrawerOpen(GravityCompat.START)) {
+            binding.drawer.closeDrawer(GravityCompat.START)
         } else
             super.onBackPressed()
     }
