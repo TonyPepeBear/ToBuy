@@ -3,11 +3,9 @@ package com.tonypepe.tobuy
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewParent
 import androidx.recyclerview.widget.RecyclerView
 import com.tonypepe.tobuy.data.Item
 import com.tonypepe.tobuy.databinding.TobuyItemBinding
-import kotlinx.android.synthetic.main.tobuy_item.view.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.sdk27.coroutines.onLongClick
 
