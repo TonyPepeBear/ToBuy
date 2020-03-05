@@ -1,26 +1,37 @@
 package com.tonypepe.tobuy
 
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.view.ViewParent
 import androidx.recyclerview.widget.RecyclerView
 import com.tonypepe.tobuy.data.Item
+import com.tonypepe.tobuy.databinding.TobuyItemBinding
 import kotlinx.android.synthetic.main.tobuy_item.view.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.sdk27.coroutines.onLongClick
 
 class ItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-    val title = view.textView_title
-    val count = view.textView_count
-    val buttonLeft = view.button_left
-    val buttonRight = view.button_right
+    companion object {
+        fun createView(parent: ViewGroup) : ItemViewHolder =
+            ItemViewHolder(
+                TobuyItemBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                ).root
+            )
+    }
+    val binding = TobuyItemBinding.bind(view)
 
     fun bindView(item: Item, action: ItemAction?) {
-        title.text = item.name
-        count.text = item.count.toString()
+        binding.textViewTitle.text = item.name
+        binding.textViewCount.text = item.count.toString()
         action?.let {
             view.onClick { action.onClick(item) }
-            buttonRight.onClick { action.rightButtonClick(item) }
-            buttonLeft.onClick { action.leftButtonClick(item) }
-            count.onClick { action.onCountClick(item) }
+            binding.buttonRight.onClick { action.rightButtonClick(item) }
+            binding.buttonLeft.onClick { action.leftButtonClick(item) }
+            binding.textViewCount.onClick { action.onCountClick(item) }
             view.onLongClick { action.onLongClick(item) }
         }
     }

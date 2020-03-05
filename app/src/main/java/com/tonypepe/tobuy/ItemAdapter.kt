@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.tonypepe.tobuy.data.Item
+import com.tonypepe.tobuy.databinding.TobuyItemBinding
 
 class ItemAdapter : PagedListAdapter<Item, ItemViewHolder>(
     object : DiffUtil.ItemCallback<Item>() {
@@ -21,10 +22,7 @@ class ItemAdapter : PagedListAdapter<Item, ItemViewHolder>(
     var action: ItemAction? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ItemViewHolder(
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.tobuy_item, parent, false)
-        )
+        ItemViewHolder.createView(parent)
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         getItem(position)?.let {
